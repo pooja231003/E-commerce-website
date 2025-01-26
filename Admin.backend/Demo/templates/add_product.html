@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: green;
+            text-align: center;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        label, p {
+            display: block;
+            margin-bottom: 8px;
+            color: green;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity-container label {
+            width: 15%;
+            margin: 0;
+        }
+
+        .quantity-container select {
+            width: 50%;
+        }
+
+        input[type="submit"] {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add a New Product</h1>
+    <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="id">Product ID:</label>
+        <input type="text" id="id" name="id" required><br><br>
+
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="image">Product Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+
+        <label for="cost">Cost per litre:</label>
+        <input type="number" step="0.01" id="cost" name="cost" required><br>
+
+        <p style="font-size: large;"><b>Select available packaging Quantity:</b></p><br>
+        <div class="quantity-container">
+            <label for="quantity_half">500 ml:</label>
+            <select id="quantity_half" name="quantity_half" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <div class="quantity-container">
+            <label for="quantity1">1 litre:</label>
+            <select id="quantity1" name="quantity1" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <div class="quantity-container">
+            <label for="quantity2">2 litre:</label>
+            <select id="quantity2" name="quantity2" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <div class="quantity-container">
+            <label for="quantity3">3 litre:</label>
+            <select id="quantity3" name="quantity3" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <div class="quantity-container">
+            <label for="quantity5">5 litre:</label>
+            <select id="quantity5" name="quantity5" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div><br><br>
+
+        <label for="availability">Availability of product</label>
+        <select id="availability" name="availability" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" style="width: 90%;"></textarea><br><br>
+        <input type="submit" value="Add Product">
+    </form>
+</body>
+</html>

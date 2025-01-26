@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #2e8b57;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #2e8b57;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        img {
+            max-width: 100px;
+        }
+        button {
+            background-color: #2e8b57;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #246b42;
+        }
+    </style>
+</head>
+<body>
+    <h1>Products</h1>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Cost</th>
+            <th>500 ml</th>
+            <th>1 litre</th>
+            <th>2 litre</th>
+            <th>3 litre</th>
+            <th>5 litre</th>
+            <th>Availability</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product[0] }}</td>
+            <td>{{ product[1] }}</td>
+            <td><img src="data:image/jpeg;base64,{{ product[2] }}" alt="{{ product[1] }}"></td>
+            <td>{{ product[3] }}</td>
+            <td>{{ 'Available' if product[4] else 'Not Available' }}</td>
+            <td>{{ 'Available' if product[5] else 'Not Available' }}</td>
+            <td>{{ 'Available' if product[6] else 'Not Available' }}</td>
+            <td>{{ 'Available' if product[7] else 'Not Available' }}</td>
+            <td>{{ 'Available' if product[8] else 'Not Available' }}</td>
+            <td>{{ 'Available' if product[9] else 'Not Available' }}</td>
+            <td>{{ product[10] }}</td>
+            <td>
+                <form method="post" action="/remove_product/{{ product[0] }}" style="display:inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit">Remove</button>
+                </form>
+                <form method="get" action="/edit_product/{{ product[0] }}" style="display:inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

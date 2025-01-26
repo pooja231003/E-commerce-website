@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Profile Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- CSRF Token -->
+    <style>
+        .profile-body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin-top: 4%;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .profile-name {
+            margin: 0;
+        }
+
+        .profile-details {
+            padding: 20px;
+        }
+
+        .profile-details label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        .profile-details input {
+            width: calc(100% - 40px); /* Adjusted width to accommodate edit icons */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .edit-icon {
+            cursor: pointer;
+            vertical-align: middle;
+            margin-left: -30px; /* Positioning the icon */
+            margin-top: -30px; /* Adjust icon's vertical alignment */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .logout-btn, .place-order-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .logout-btn:hover, .place-order-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .place-order-btn {
+            background-color: #4CAF50;
+        }
+
+        .place-order-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateCartCount() {
+                fetch('/get_cart_count')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('cart-count').textContent = `(${data.count})`;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching cart count:', error));
+            }
+    
+            updateCartCount();
+            setInterval(updateCartCount, 5000);  // Refresh cart count every 5 seconds
+        });
+    </script>
+</head>
+<body>
+    <header class="sticky-header">
+        <h1 class="headpoorna" style="text-align: left;"><b>Poorna Oils</b></h1>
+        <p>Contact us: 9844086162, 9538888098<br></p>
+        <div class="follow-us">
+            <span>Follow us on:</span>
+            <a href="https://www.instagram.com/poornaoils?igsh=MW1vbXB4bHR4Njlqdg==" target="_blank">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV15h1aGSqLTPqwEY5xQoBKkCe37xaTVTRHQ&s" style="width: 20px; height: 20px;">
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100094135751006&mibextid=ZbWKwL" target="_blank">
+                <img src="https://i.pinimg.com/736x/63/81/5d/63815dbaaf16875b86ea585567c791e8.jpg"  style="width: 20px; height: 20px;">
+            </a>
+        </div>
+        <nav style="padding-right: 2%;">
+            <a href="{{url_for('home')}}">Home</a>
+            <a href="{{url_for('about')}}">About us</a>
+            <a href="{{url_for('shop')}}">Shop</a>
+            <a href="{{url_for('cart')}}">Cart <span id="cart-count"></span></a>
+            <a href="{{url_for('your_profile')}}">Log in</a>
+        </nav>
+    </header>
+    <div class="profile-body">
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1 class="profile-name">{{ customer.c_name }}</h1> <!-- Display customer name from the template context -->
+        </div>
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+        <div class="profile-details">
+            <label for="name">Name:</label>
+            <input type="text" id="name" value="{{ customer.c_name }}" readonly> <!-- Corrected index for name -->
+            <span class="edit-icon" onclick="toggleEdit('name')">✏️</span>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" value="{{ customer.address }}" readonly> <!-- Corrected index for address -->
+            <span class="edit-icon" onclick="toggleEdit('address')">✏️</span>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" value="{{ customer.city }}" readonly> <!-- Corrected index for city -->
+            <span class="edit-icon" onclick="toggleEdit('city')">✏️</span>
+
+            <label for="state">State:</label>
+            <input type="text" id="state" value="{{ customer.state }}" readonly> 
+            <span class="edit-icon" onclick="toggleEdit('state')">✏️</span>
+
+            <label for="pin-code">Pin Code:</label>
+            <input type="text" id="pin-code" value="{{ customer.pincode }}" readonly> 
+            <span class="edit-icon" onclick="toggleEdit('pin-code')">✏️</span>
+
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" value="{{ customer.contact }}" readonly> 
+            <span class="edit-icon" onclick="toggleEdit('contact')">✏️</span>
+
+            <label for="email">Email ID:</label>
+            <input type="text" id="email" value="{{ customer.c_gmail }}" readonly> 
+            <span class="edit-icon" onclick="toggleEdit('email')">✏️</span>
+
+            <div class="button-container">
+                <button type="button" class="place-order-btn" onclick="done()">Done</button>
+            </div>
+            <div class="button-container">
+                <button type="button" class="logout-btn" onclick="logout()">Log out</button>
+                <a href="{{ url_for('view_orders') }}">
+                    <button type="button" class="place-order-btn">View Orders</button>
+                </a>
+            </div>
+        </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleEdit(fieldId) {
+            const field = document.getElementById(fieldId);
+            const isReadOnly = field.hasAttribute('readonly');
+
+            field.readOnly = !isReadOnly;  // Toggle readonly attribute
+
+            if (fieldId === 'email') {
+                alert('Email field cannot be edited.');
+                field.readOnly = true;
+                return;
+            }
+            field.focus();
+        }
+
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const state = document.getElementById('state').value.trim();
+            const pincode = document.getElementById('pin-code').value.trim();
+            const contact = document.getElementById('contact').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !address || !city || !state || !pincode || !contact || !email) {
+                alert('Please fill out all required fields.');
+                return false;
+            }
+
+            if (!validatePhone(contact)) {
+                alert('Please enter a valid phone number.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function validatePhone(phone) {
+            const re = /^\d{10}$/;
+            return re.test(String(phone));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('#profile-form');
+
+            form.addEventListener('submit', function(event) {
+                if (!validateForm()) {
+                    event.preventDefault();
+                }
+            });
+        });
+
+        function done() {
+            if (validateForm()) {
+            // Gather data from form fields
+            const data = {
+                name: document.getElementById('name').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                pin_code: document.getElementById('pin-code').value,
+                contact: document.getElementById('contact').value,
+            };
+
+            // Send data to the server
+            return fetch('/update_profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')  // CSRF Token
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Profile updated successfully!');
+                } else {
+                    throw new Error('Failed to update profile.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating your profile.');
+            });
+        }
+        }
+
+        function logout() {
+            fetch('/logout', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')  // CSRF Token
+                },
+                credentials: 'same-origin'  // Send cookies along with the request
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/'; // Redirect to home page after logout
+                } else {
+                    alert('Failed to log out.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+                alert('An error occurred while logging out.');
+            });
+        }
+    </script>
+    </div>
+</body>
+</html>

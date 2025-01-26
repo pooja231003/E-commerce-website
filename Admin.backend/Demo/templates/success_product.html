@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .home-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            color: #2e8b57;
+        }
+        p {
+            color: #555555;
+            margin: 20px 0;
+        }
+        a {
+            color: #2e8b57;
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px 0;
+            padding: 10px 20px;
+            border: 1px solid #2e8b57;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #2e8b57;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <h2>Welcome, {{ username }}!</h2>
+        <p>You are logged in.</p>
+        <p><a href="{{ url_for('add_product') }}">Add a New Product</a></p>
+        <p><a href="{{ url_for('products') }}">View Product(s)</a></p>
+    </div>
+</body>
+</html>

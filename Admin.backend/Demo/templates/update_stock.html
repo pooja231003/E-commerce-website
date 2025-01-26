@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Stock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #2e8b57;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        label {
+            margin-right: 10px;
+            flex: 1;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 60%;
+        }
+
+        .current-quantity {
+            margin-right: 10px;
+            color: #555;
+            flex: 1;
+            text-align: right;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            width: 48%;
+            padding: 10px 15px;
+            border: none;
+            color: #fff;
+            background-color: #2e8b57;
+            cursor: pointer;
+            text-align: center;
+            margin: 0 5px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #2e8b57;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Stock for Product ID {{ pid }}</h1>
+        <form method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="form-group">
+                <label for="qty_500ml">500ml:</label>
+                <div class="current-quantity"><b>{{ current_quantities.qty_500ml }}</b></div>
+                <input type="number" step="0.01" id="qty_500ml" name="qty_500ml">
+            </div>
+            <div class="form-group">
+                <label for="qty_1l">1 Litre:</label>
+                <div class="current-quantity"><b>{{ current_quantities.qty_1l }}</b></div>
+                <input type="number" step="0.01" id="qty_1l" name="qty_1l">
+            </div>
+            <div class="form-group">
+                <label for="qty_2l">2 Litres:</label>
+                <div class="current-quantity"><b>{{ current_quantities.qty_2l }}</b></div>
+                <input type="number" step="0.01" id="qty_2l" name="qty_2l">
+            </div>
+            <div class="form-group">
+                <label for="qty_3l">3 Litres:</label>
+                <div class="current-quantity"><b>{{ current_quantities.qty_3l }}</b></div>
+                <input type="number" step="0.01" id="qty_3l" name="qty_3l">
+            </div>
+            <div class="form-group">
+                <label for="qty_5l">5 Litres:</label>
+                <div class="current-quantity"><b>{{ current_quantities.qty_5l }}</b></div>
+                <input type="number" step="0.01" id="qty_5l" name="qty_5l">
+            </div>
+            <div class="btn-container">
+                <button type="submit" class="btn">Update Stock</button>
+                <a href="{{ url_for('stock') }}" class="btn">Stock List</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #2e8b57;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .field {
+            margin-bottom: 15px;
+        }
+        .field label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+        }
+        .field p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .back-button {
+            display: block;
+            width: 100%;
+            background-color: #2e8b57;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background-color: #246b42;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Customer Details</h1>
+        <div class="field">
+            <label for="c_gmail">Email:</label>
+            <p id="c_gmail">{{ customer[0] }}</p>
+        </div>
+        <div class="field">
+            <label for="c_name">Name:</label>
+            <p id="c_name">{{ customer[1] }}</p>
+        </div>
+        <div class="field">
+            <label for="address">Address:</label>
+            <p id="address">{{ customer[2] }}</p>
+        </div>
+        <div class="field">
+            <label for="city">City:</label>
+            <p id="city">{{ customer[3] }}</p>
+        </div>
+        <div class="field">
+            <label for="state">State:</label>
+            <p id="state">{{ customer[4] }}</p>
+        </div>
+        <div class="field">
+            <label for="pincode">Pincode:</label>
+            <p id="pincode">{{ customer[5] }}</p>
+        </div>
+        <div class="field">
+            <label for="contact">Contact Number:</label>
+            <p id="contact">{{ customer[6] }}</p>
+        </div>
+        <a href="{{ url_for('order') }}" class="back-button">Back to Orders</a>
+    </div>
+</body>
+</html>
