@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: green;
+            text-align: center;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        label, p {
+            display: block;
+            margin-bottom: 8px;
+            color: green;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        select,
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+<h1>Add a New Product</h1>
+
+<form th:action="@{/add_product}" method="post" enctype="multipart/form-data">
+    <label for="pid">Product ID:</label>
+    <input type="text" id="pid" name="pid" required>
+
+    <label for="name">Product Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="image">Product Image:</label>
+    <input type="file" id="image" name="image" accept="image/*" required>
+
+    <label for="price">Cost per litre:</label>
+    <input type="number" id="price" name="price" required>
+
+    <p><b>Select available packaging Quantity:</b></p>
+
+    <label for="quantity_half">500 ml:</label>
+    <select id="quantity_half" name="quantity_half">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <label for="quantity1">1 litre:</label>
+    <select id="quantity1" name="quantity1">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <label for="quantity2">2 litre:</label>
+    <select id="quantity2" name="quantity2">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <label for="quantity3">3 litre:</label>
+    <select id="quantity3" name="quantity3">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <label for="quantity5">5 litre:</label>
+    <select id="quantity5" name="quantity5">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <label for="available">Availability of product:</label>
+    <select id="available" name="available">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="4"></textarea>
+
+    <input type="submit" value="Add Product">
+</form>
+
+<!-- Toast Container -->
+<div id="toast" style="
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;">
+</div>
+
+<script th:inline="javascript">
+    function showToast(message, isSuccess) {
+        const toast = document.getElementById("toast");
+        toast.innerText = message;
+        toast.style.backgroundColor = isSuccess ? "green" : "red";
+        toast.style.visibility = "visible";
+        setTimeout(() => {
+            toast.style.visibility = "hidden";
+        }, 3000);
+    }
+
+    /*<![CDATA[*/
+    window.onload = function () {
+        const successMsg = /*[[${success}]]*/ null;
+        const errorMsg = /*[[${error}]]*/ null;
+
+        if (successMsg !== null && successMsg !== '') {
+            showToast(successMsg, true);
+        }
+
+        if (errorMsg !== null && errorMsg !== '') {
+            showToast(errorMsg, false);
+        }
+    }
+    /*]]>*/
+</script>
+
+</body>
+</html>

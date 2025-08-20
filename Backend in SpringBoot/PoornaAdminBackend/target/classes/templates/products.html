@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+	<style>
+	    body {
+	        font-family: Arial, sans-serif;
+	        background-color: #f0f8f5;
+	        margin: 0;
+	        padding: 20px;
+	    }
+	    h1 {
+	        color: #2e8b57;
+	        text-align: center;
+	    }
+	    table {
+	        width: 100%;
+	        border-collapse: collapse;
+	        margin: 20px 0;
+	        background-color: #ffffff;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	    }
+	    th, td {
+	        padding: 12px;
+	        text-align: left;
+	        border-bottom: 1px solid #ddd;
+	    }
+	    th {
+	        background-color: #2e8b57;
+	        color: white;
+	    }
+	    tr:hover {
+	        background-color: #f1f1f1;
+	    }
+	    img {
+	        max-width: 100px;
+	    }
+	    button {
+	        background-color: #2e8b57;
+	        color: white;
+	        border: none;
+	        padding: 8px 16px;
+	        margin: 4px 2px;
+	        cursor: pointer;
+	        border-radius: 4px;
+	    }
+	    button:hover {
+	        background-color: #246b42;
+	    }
+	</style>
+</head>
+<body>
+    <h1>Products</h1>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Cost</th>
+            <th>500 ml</th>
+            <th>1 litre</th>
+            <th>2 litre</th>
+            <th>3 litre</th>
+            <th>5 litre</th>
+            <th>Availability</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td><img th:src="'data:image/jpeg;base64,' + ${product.image}" th:alt="${product.name}" /></td>
+            <td th:text="${product.price}"></td>
+
+            <td th:text="${product.quantity_half} ? 'Available' : 'Not Available'"></td>
+            <td th:text="${product.quantity1} ? 'Available' : 'Not Available'"></td>
+            <td th:text="${product.quantity2} ? 'Available' : 'Not Available'"></td>
+            <td th:text="${product.quantity3} ? 'Available' : 'Not Available'"></td>
+            <td th:text="${product.quantity5} ? 'Available' : 'Not Available'"></td>
+            <td th:text="${product.available} ? 'Available' : 'Not Available'"></td>
+            <td th:text="${product.description}"></td>
+            <td>
+                <form th:action="@{/remove_product/{id}(id=${product.id})}" method="post" style="display:inline;">
+                    <button type="submit">Remove</button>
+                </form>
+                <form th:action="@{/edit_product/{id}(id=${product.id})}" method="get" style="display:inline;">
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

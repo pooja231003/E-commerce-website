@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock List</title>
+	<style>
+	        body {
+	            font-family: Arial, sans-serif;
+	            background-color: #f4f4f4;
+	            color: #333;
+	            padding: 20px;
+	        }
+
+	        h1 {
+	            color: #2e8b57;
+	        }
+
+	        table {
+	            width: 100%;
+	            border-collapse: collapse;
+	            margin-bottom: 20px;
+	        }
+
+	        table, th, td {
+	            border: 1px solid #ddd;
+	        }
+
+	        th, td {
+	            padding: 10px;
+	            text-align: left;
+	        }
+
+	        th {
+	            background-color: #f2f2f2;
+	        }
+
+	        .btn {
+	            padding: 10px 15px;
+	            margin: 5px;
+	            border: none;
+	            color: #fff;
+	            background-color: #2e8b57;
+	            cursor: pointer;
+	        }
+
+	        .btn:hover {
+	            background-color: #2e8b57;
+	        }
+
+	        .container {
+	            max-width: 800px;
+	            margin: 0 auto;
+	        }
+
+	        .form-group {
+	            margin-bottom: 15px;
+	        }
+
+	        label {
+	            display: block;
+	            margin-bottom: 5px;
+	        }
+
+	        input[type="number"] {
+	            padding: 8px;
+	            border: 1px solid #ddd;
+	            border-radius: 4px;
+	            width: 100%;
+	        }
+	    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stock List</h1>
+        <table	
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>500ml</th>
+                    <th>1 Liter</th>
+                    <th>2 Liters</th>
+                    <th>3 Liters</th>
+                    <th>5 Liters</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${stock_items}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.qty_500ml}"></td>
+                    <td th:text="${item.qty_1l}"></td>
+                    <td th:text="${item.qty_2l}"></td>
+                    <td th:text="${item.qty_3l}"></td>
+                    <td th:text="${item.qty_5l}"></td>
+                    <td>
+                        <form th:action="@{/update_stock/{id}(id=${item.id})}" method="get" style="display:inline;">
+                            <button type="submit" class="btn">Update</button>
+                        </form>
+                        <form th:action="@{/remove_stock/{id}(id=${item.id})}" method="post" style="display:inline;">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <button type="submit" class="btn">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/add_stock_form}">
+            <button class="btn">Add Stock</button>
+        </a>
+        <a th:href="@{/success}">
+            <button class="btn">Back to HOME</button>
+        </a>
+    </div>
+</body>
+</html>
